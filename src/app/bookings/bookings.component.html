@@ -1,0 +1,14 @@
+<mat-grid-list cols="5" rowHeight="100px" gutterSize="10">
+  <mat-grid-tile
+    *ngFor="let timeSlot of timeSlots" (click)="onSelect(timeSlot)"
+    [colspan]="1"
+    [rowspan]="1" >
+    <mat-grid-tile-header>{{timeSlot.court}}</mat-grid-tile-header>
+    {{timeSlot.time | date:'shortTime'}}
+  </mat-grid-tile>
+</mat-grid-list>
+
+<div *ngIf="selectedTimeSlot">
+  {{selectedTimeSlot.time | date:'shortTime'}}
+  <div><span>court: </span>{{selectedTimeSlot.court}}</div>
+</div>
