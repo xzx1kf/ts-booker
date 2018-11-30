@@ -22,7 +22,17 @@
     "@angular/platform-browser": "~7.0.0",
     "@angular/platform-browser-dynamic": "~7.0.0",
     "@angular/router": "~7.0.0",
+    "body-parser": "~1.15.1",
     "core-js": "^2.5.4",
+    "debug": "~2.2.0",
+    "express": "^4.16.4",
+    "external-ip": "^0.2.4",
+    "jade": "~1.11.0",
+    "mongodb": "^2.2.5",
+    "morgan": "~1.7.0",
+    "pug": "^0.1.0",
+    "request": "^2.74.0",
+    "serve-favicon": "~2.3.0",
     "rxjs": "~6.3.3",
     "zone.js": "~0.8.26"
   },
@@ -46,5 +56,17 @@
     "ts-node": "~7.0.0",
     "tslint": "~5.11.0",
     "typescript": "~3.1.6"
-  }
+  },
+  "description": "This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.0.6.",
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xzx1kf/ts-booker.git"
+  },
+  "author": "Nick Hale",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xzx1kf/ts-booker/issues"
+  },
+  "homepage": "https://github.com/xzx1kf/ts-booker#readme"
 }
