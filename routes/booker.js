@@ -51,4 +51,109 @@ router.get('/config', function(req, res, next) {
   res.json(config.client);
 });
 
+router.post('/countDocs', function(req, res, next) {
+
+	/* Request from client to count the number of documents in a 
+	collection; the request should be of the form:
+
+	{
+		MongoDBURI: string; // Connect string for MongoDB instance
+		collectionName: string;
+	}
+
+	The response will contain:
+
+	{
+		success: boolean;	
+		count: number;		// The number of documents in the collection
+		error: string;
+	}
+	*/
+
+	var requestBody = req.body;
+	var database = new DB;
+
+	database.connect(requestBody.MongoDBURI)
+	.then(
+		function() {
+			return database.countDocuments(requestBody.collectionName)
+		})
+	.then(
+		function(count) {
+			return {
+					"success": true,
+					"count": count,
+					"error": ""
+				};
+		},
+		function(err) {
+			console.log("Failed to count the documents: " + err);
+			return {
+					"success": false,
+					"count": 0,
+					"error": "Failed to count the documents: " + err
+				};
+		})
+	.then(
+		function(resultObject) {
+			database.close();
+			res.json(resultObject);
+		})
+})
+
+router.post('/getBookings', function(req, res, next) {
+
+  /* Request from client to get the documents for a specified day from a collection.
+   * The request should be of the form:
+   *
+   * {
+   *   MongoDBURI: string; // Connect string for MongoDB instance
+   *   collectionName: string
+   *   matchPattern: Object; // Filter to determine which documents should be 
+   *                         // returned.
+   * }
+   *
+   * The response will contain:
+   *
+   * {
+   *   success: boolean;
+   *   documents: string;
+   *   error: string;
+   * }
+   */
+
+  var requestBody = req.body;
+  var database = new DB;
+
+  database.connect(requestBody.MongoDBURI)
+  .then(
+      function() {
+        return database.getBookings(
+            requestBody.collectionName,
+            requestBody.date)
+      })
+  .then(
+      function(docs) {
+        return {
+          "success": true,
+          "documents": docs,
+          "error": ""
+        };
+      },
+      function(error) {
+        console.log('Failed to retrieve booking data: ' + error);
+        return {
+          "success": false,
+          "documents": null,
+          "error": "Failed to retrieve booking data: " + error
+        };
+      })
+  .then(
+      function(resultObject) {
+        database.close();
+        res.json(resultObject);
+      }
+  )
+})
+
 module.exports = router;

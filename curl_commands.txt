@@ -1,0 +1,2 @@
+curl -g -X POST --data '{"MongoDBURI": "mongodb://localhost:27017/ts-booker?authSource=admin&socketTimeoutMS=30000&maxPoolSize=20", "collectionName": "bookings"}' -i "localhost:3000/booker/countDocs" --header "Content-Type:application/json"
+curl -g -X POST --data '{"MongoDBURI": "mongodb://localhost:27017/ts-booker?authSource=admin&socketTimeoutMS=30000&maxPoolSize=20", "collectionName": "bookings", "date": "2018-12-01"}' -i "localhost:3000/booker/getBookings" --header "Content-Type:application/json"
