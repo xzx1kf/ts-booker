@@ -14,6 +14,7 @@ var DB = require('../javascripts/db');
 
 var publicIP; // IP address of the server running the Mongopop service
 
+
 getIP(function (err, ip) {
 
 	// Stores the IP address of the server where the Mongopop service is running
@@ -25,6 +26,7 @@ getIP(function (err, ip) {
     console.log("ts-booker API running on " + ip + ":" + config.expressPort);
     publicIP = ip;
 });
+
 
 router.get('/', function(req, res, next) {
 
@@ -152,6 +154,41 @@ router.post('/getBookings', function(req, res, next) {
       function(resultObject) {
         database.close();
         res.json(resultObject);
+      }
+  )
+})
+
+router.get('/bookings', function(req, res, next) {
+
+  var database = new DB;
+
+  database.connect(config.client.mongodb.defaultUri + 
+      "/" + config.client.mongodb.defaultDatabase + 
+      "?authSource=admin&socketTimeoutMS=30000&maxPoolSize=20")
+  .then(
+      function() {
+        return database.getBookings(
+            config.client.mongodb.defaultCollection,
+            "2018-12-01")
+      })
+  .then(
+      function(TimeSlots) {
+        return {
+          TimeSlots
+        };
+      },
+      function(error) {
+        console.log('Failed to retrieve booking data: ' + error);
+        return {
+          "success": false,
+          "documents": null,
+          "error": "Failed to retrieve booking data: " + error
+        };
+      })
+  .then(
+      function(resultObject) {
+        database.close();
+        res.json(resultObject.TimeSlots);
       }
   )
 })

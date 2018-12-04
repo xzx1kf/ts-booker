@@ -134,9 +134,18 @@ DB.prototype.getBookings = function(coll, date) {
         console.log("Could not access collection: " + error.message);
         reject(error.message);
       } else {
+        collection.find(
+          { time: { $gte: minDate, $lt: maxDate } }
+        ).sort(
+          { timeSlot: 1 }
+        ).toArray(
+          function(error, docs) {
+            resolve(docs);
+            //console.log(docs);
+        });
+        /*
         var cursor = collection.aggregate([
             {
-              //$match: {time: { $gte: date + " 00:00:00.000"} }
               $match: {time: { $gte: minDate, $lt: maxDate } }
             }],
             { cursor: { batchSize: 10 } }
@@ -150,6 +159,7 @@ DB.prototype.getBookings = function(coll, date) {
             resolve(docArray);
           }
         })
+        */
       }
     })
   })

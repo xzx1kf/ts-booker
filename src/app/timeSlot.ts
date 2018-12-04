@@ -1,5 +1,5 @@
 export class TimeSlot {
-  id: number;
+  id: number
   time: string;
   court: number;
   booked: boolean;

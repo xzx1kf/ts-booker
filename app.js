@@ -29,6 +29,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // by the client app (Angular).
 app.use(express.static(path.join(__dirname, 'src')));
 
+app.use(function (req, res, next) {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
+  res.setHeader('Access-Control-Allow-Methods', 'GET');
+  res.setHeader('Access-Control-Allow-Headers', 'content-type');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  next();
+});
+
 app.use('/booker', booker);
 
 // For any other routes, set the status to 404 and forward to error handler

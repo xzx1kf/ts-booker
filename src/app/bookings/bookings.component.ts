@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TimeSlot } from '../timeSlot';
-import { TIMESLOTS } from '../mock-bookings';
+import { BookingService } from '../booking.service';
 
 @Component({
   selector: 'app-bookings',
@@ -9,15 +9,23 @@ import { TIMESLOTS } from '../mock-bookings';
 })
 export class BookingsComponent implements OnInit {
 
-  timeSlots = TIMESLOTS;
+  //timeSlots = TIMESLOTS;
+  timeSlots: TimeSlot[];
+
   selectedTimeSlot: TimeSlot;
   
-  constructor() { }
+  constructor(private bookingService: BookingService) { }
 
   ngOnInit() {
+    this.getBookings();
   }
 
   onSelect(timeSlot: TimeSlot): void {
     this.selectedTimeSlot = timeSlot;
+  }
+
+  getBookings(): void {
+    this.bookingService.getBookings()
+      .subscribe(timeSlots => this.timeSlots = timeSlots);
   }
 }
